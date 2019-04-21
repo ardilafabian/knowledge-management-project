@@ -65,18 +65,24 @@ class Dicotomic_Choice(models.Model):
     def __str__(self):
         return '[Choice: %s, Value: %d]' % (self.dicotomic_choice_txt, self.dicotomic_choice_value)
 
-class Scale_Question(models.Model):
+class Question(models.Model):
     id = models.AutoField(primary_key=True)
     question_text = models.CharField(max_length=200)
-    choice = models.ForeignKey(Scale_Choice, on_delete=models.CASCADE)
+
+    #-----
+    SCALE = 'scale'
+    DICOTOMIC = 'dicotomic'
+
+    type_choices = (
+        (SCALE, 'Scale'),
+        (DICOTOMIC, 'Dicotomic')
+    )
+
+    type = models.CharField(
+        max_length=30,
+        choices=type_choices,
+        default=SCALE
+    )
 
     def __str__(self):
-        return '[ID: %d, Question: %s, Choice: %s]' % (self.id, self.question_text, self.choice)
-
-class Dicotomic_Question(models.Model):
-    id = models.AutoField(primary_key=True)
-    question_text = models.CharField(max_length=200)
-    choice = models.ForeignKey(Dicotomic_Choice, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '[ID: %d, Question: %s, Choice: %s]' % (self.id, self.question_text, self.choice)
+        return '[ID: %d, Question: %s, Type: %s]' % (self.id, self.question_text, self.type)
