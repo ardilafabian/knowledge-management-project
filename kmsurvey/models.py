@@ -68,6 +68,14 @@ class Dicotomic_Choice(models.Model):
 class Question(models.Model):
     id = models.AutoField(primary_key=True)
     question_text = models.CharField(max_length=200)
+    tool = models.ForeignKey(Tool,
+                            null=True,
+                            on_delete=models.CASCADE)
+    approach = models.ForeignKey(Approach,
+                                null=True,
+                                on_delete=models.CASCADE
+                                )
+
 
     #-----
     SCALE = 'scale'
